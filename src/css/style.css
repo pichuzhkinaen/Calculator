@@ -1,0 +1,50 @@
+html, body {
+  background: antiquewhite;
+  margin: 0;
+}
+
+.calc {
+  width: 500px;
+  height: 500px;
+  background: aliceblue;
+  border: 3px blueviolet solid;
+  padding: 30px;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+
+.calc-area {
+  width: 50%;
+  height: 40px;
+  font-size: 24px;
+  text-align: right;
+  margin: 20px 0;
+}
+
+.calc-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 -5px;
+}
+
+.numbers {
+  width: calc(100% / 5 * 3);
+}
+
+.calc-operations {
+  width: calc(100% / 5 * 2);
+}
+
+.actions {
+  margin-top: 20px;
+}
+
+.button {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */
