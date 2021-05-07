@@ -7,25 +7,33 @@ window.addEventListener('DOMContentLoaded', function() {
         plus = document.getElementById('#plus'),
         minus = document.getElementById('#minus');
 
+    calcArea.addEventListener('focus', () => {
+        if (calcArea.value == 0) {
+            calcArea.value = '';
+        }
+    });
+
+    calcArea.addEventListener('input', () => {
+        const newInputValue = calcArea.value.replace(/[^\d\.]/g, '').replace( /^([^\.]*\.)|\./g, '$1' );
+        calcArea.value = newInputValue;
+        console.log(newInputValue);
+    });
+
+    //заполнение поля инпут при клике на кнопки с цифрами
     const addNumInput = (e) => {
         const target = e.target;
-        const buttonValue = target.value;
-        console.log(buttonValue);
-
-        if (calcArea.value > 0) {
-            calcArea.value += "" + buttonValue;
-            if (calcArea.length === 5) {
-                return false;
-            }
+        const btnValue = target.value;
+        let arrInput = [];
+        
+        if (calcArea.value != 0 && calcArea.value.length < 15) {
+            arrInput = calcArea.value += "" + btnValue;
+        } else if (calcArea.value == 0) {
+            calcArea.value = btnValue;
         } else {
-            calcArea.value = buttonValue;
+            return false;
         }
-        calcArea.oninput = function() {
-            result.innerHTML = calcArea.value;
-        };
-
     };
-
+  
     let i = 0;
     while (i < numbers.length) {
         numbers[i].addEventListener('click', addNumInput);
