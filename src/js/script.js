@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const calcAreaWrapper = document.querySelector('.calc-area'),
         calcArea = document.querySelector('.calc-area-input'),
+        calcPrev = document.querySelector('.calc-area-prev'),
         numbers = document.querySelectorAll('.numbers-button'),
         plusMinus = document.getElementById('plus-minus'),
         plus = document.getElementById('plus'),
@@ -10,8 +11,6 @@ window.addEventListener('DOMContentLoaded', function() {
         comma = document.getElementById('comma');
 
     let dataInput = [];
-
-    // console.log(typeof calcArea.value); //string
 
     calcArea.addEventListener('focus', () => {
         if (calcArea.value == 0) {
@@ -37,29 +36,55 @@ window.addEventListener('DOMContentLoaded', function() {
         calcArea.value = newInputValue;
     });
 
-    plus.addEventListener('click', () => {
-        createCalcPrev();
-        let calcPrev = document.querySelector('.calc-area-prev');
-        
-        if (!calcPrev.innerHTML == '') {
-            calcPrev.innerHTML = calcPrev.innerHTML + calcArea.value + '+';
-            dataInput.push(calcArea.value);
-            let dataInputSum = 0;
+    // plus.addEventListener('click', () => {
+    //     let sumInputValue = 0;
+    //     let calcAreaValue = calcArea.value;
+    //     calcArea.value = '';
+    //     dataInput.push(calcAreaValue);
 
-            for (let i = 0; i < dataInput.length; i++) {
-                dataInput[i] = Number(dataInput[i]);
-                dataInputSum += dataInput[i];
-                calcPrev.innerHTML = dataInputSum + ' +';
-                calcArea.value = '';
-            }
-        } else {
-            calcPrev.innerHTML = calcArea.value + ' +';
-            dataInput.push(calcArea.value);
-            calcArea.value = '';
-        }
-        // calcArea.value = calcArea.value + dataInput;
-        // calcPrev.innerHTML = calcArea.value;
+    //     console.log(dataInput);
+
+    //     calcPrev.innerHTML = calcPrev.innerHTML + calcAreaValue + ' + ';
+
+    //     for (let i = 0; i < dataInput.length; i++) {
+
+    //         sumInputValue = +sumInputValue + +dataInput[i];
+
+    //     }
+    //     console.log(sumInputValue);
+    //     calcArea.value = sumInputValue;       
+
+    // });
+
+    plus.addEventListener('click', () => {
+        const valuePrev = calcPrev.innerHTML;
+        const calcAreaValue = calcArea.value;
+
+        addNumPrev(valuePrev, calcAreaValue);
+
+        // let sumInputValue = 0;
+        // let calcAreaValue = calcArea.value;
+        // calcArea.value = '';
+        // dataInput.push(calcAreaValue);
+
+        // console.log(dataInput);
+
+        // // calcPrev.innerHTML = calcPrev.innerHTML + calcAreaValue + ' + ';
+
+        // for (let i = 0; i < dataInput.length; i++) {
+
+        //     sumInputValue = +sumInputValue + +dataInput[i];
+
+        // }
+        // calcArea.value = sumInputValue;       
+        
     });
+    
+    const addNumPrev = (valuePrev, calcAreaValue) => {
+        valuePrev = valuePrev + calcAreaValue + ' + ';
+        console.log(valuePrev);
+        calcPrev.innerHTML = valuePrev;
+    }
 
     // comma.addEventListener('click', () => {
     //     if (!calcArea.value.includes(',')) {
@@ -92,6 +117,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //заполнение поля инпут при клике на кнопки с цифрами
     const addNumInput = (e) => {
+        // let calcAreaValue = new Number(calcArea.value);
+        // console.log(typeof calcArea.value);
+        
         const target = e.target;
         const btnValue = target.value;
         let arrInput = [];
@@ -99,7 +127,9 @@ window.addEventListener('DOMContentLoaded', function() {
         if (calcArea.value != 0 && calcArea.value.length < 15) {
             arrInput = calcArea.value += "" + btnValue;
         } else if (calcArea.value == 0) {
-            calcArea.value = btnValue;
+            calcArea.value = new Number(btnValue);
+            // console.log(typeof calcArea.value);
+            
         } else {
             return false;
         }
@@ -109,11 +139,5 @@ window.addEventListener('DOMContentLoaded', function() {
     while (i < numbers.length) {
         numbers[i].addEventListener('click', addNumInput);
         i++;
-    }
-
-    function createCalcPrev() {
-        let calcPrev = document.createElement('span');
-        calcAreaWrapper.append(calcPrev);
-        calcPrev.classList.add('calc-area-prev');
     }
 });
