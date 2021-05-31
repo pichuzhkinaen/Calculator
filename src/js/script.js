@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     let result = 0,
         inputValue = '',
-        counter = 1;
+        counter = 0;
 
     calcArea.addEventListener('focus', () => {
         if (calcArea.value == 0) {
@@ -30,10 +30,10 @@ window.addEventListener('DOMContentLoaded', function() {
         const target = e.target;
         const btnValue = target.value;
 
-        if (counter === 0) {
-            calcPrev.innerHTML = '';
-            calcArea.value = btnValue;
-        } else {
+        // if (counter === 1) {
+        //     calcPrev.innerHTML = calcArea.value;
+        //     calcArea.value = '';
+        // } else {
             if (inputValue == '') {
                 calcArea.value = btnValue;
                 inputValue = calcArea.value;
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 calcArea.value += btnValue;
                 inputValue = calcArea.value;
             }
-        }
+        // }
     }
 
     // const newInputValue = calcArea.value.replace(/[^\d\.]/g, '').replace( /^([^\.]*\.)|\./g, '$1' );       
@@ -64,14 +64,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
         inputValue = calcArea.value;
 
-        calcArea.value = '';
+        // calcArea.value = '';
         
         let prevInner = calcPrev.innerHTML;
 
         if (prevInner === '') {
             calcPrev.innerHTML = inputValue + ' ' + target.innerHTML + ' ';
         } else {
-            calcPrev.innerHTML = prevInner + inputValue + ' ' + target.innerHTML + ' ';
+            if (counter === 1) {
+                calcPrev.innerHTML = calcArea.value + ' ' + target.innerHTML + ' ';
+                calcArea.value = '';
+            } else {
+                calcPrev.innerHTML = prevInner + inputValue + ' ' + target.innerHTML + ' ';
+            }
         }
         calculate(target);
     }
@@ -80,9 +85,16 @@ window.addEventListener('DOMContentLoaded', function() {
         
         switch (target.innerHTML) {
             case '+':
-                result += +inputValue;
-                calcArea.value = result;
-                inputValue = '';
+                if (counter === 1) {
+                    result = inputValue;
+                    counter = 0;
+                } else {
+                    console.log(result + ' + ' +inputValue);
+                    result += +inputValue;
+                    console.log(result);
+                    calcArea.value = result;
+                    inputValue = '';
+                }
                 break;
             case '-':
                 result -= +inputValue;
@@ -122,13 +134,13 @@ window.addEventListener('DOMContentLoaded', function() {
 
     equals.addEventListener('click', () => {
 
-        if (counter === 0) {
+        if (counter === 1) {
             calcPrev.innerHTML = calcPrev.innerHTML;
             calcArea.value = calcArea.value;
         } else {
             calcPrev.innerHTML = calcPrev.innerHTML + ' ' + calcArea.value;
             calcArea.value = result + +calcArea.value;
-            counter = 0;
+            counter = 1;
         }
     });
 
